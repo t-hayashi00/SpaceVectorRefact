@@ -1,0 +1,2 @@
+# SpaceVectorRefact
+SpaceVectorをオブジェクト指向的にリファクタリング
