@@ -1,9 +1,6 @@
 #pragma once
-
 #include "PanoramaManager.h"
-#include "DxLib.h"
-#include "module.h"
-#include <algorithm>
+
 PanoramaManager::PanoramaManager()
 {
 	pnrm = LoadGraph("image/panorama.png");

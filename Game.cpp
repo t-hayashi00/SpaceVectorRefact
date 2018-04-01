@@ -1,22 +1,23 @@
 #pragma once
 #include "DxLib.h"
-#include "Player.cpp"
+#include "Player.h"
 #include "PanoramaManager.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
-	SetMainWindowText("Space Vector - hidden");
+	SetMainWindowText("SpaceVectorRefact");
 	ChangeWindowMode(1);
 	SetFullScreenResolutionMode(DX_FSRESOLUTIONMODE_DESKTOP);
 	DxLib_Init();
 	SetDrawScreen(DX_SCREEN_BACK);
 	int scr = MakeScreen(640, 480, 0);
-	double gameSpeed = 2;
 	FILE *fp;
 
 	PanoramaManager pm;
+	Player player;
 	while (!ProcessMessage() && !CheckHitKey(KEY_INPUT_ESCAPE) && !ClearDrawScreen()) {
 		ClearDrawScreen();
 		pm.update();
+		player.update();
 		ScreenFlip();
 	}
 

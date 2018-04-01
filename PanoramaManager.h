@@ -1,5 +1,7 @@
 #pragma once
-#include"Wire.h"
+#include "Wire.h"
+#include "module.h"
+#include <algorithm>
 #include <vector>
 #include <memory>
 class PanoramaManager {

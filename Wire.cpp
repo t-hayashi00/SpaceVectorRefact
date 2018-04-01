@@ -1,9 +1,4 @@
-#pragma once
-
 #include "Wire.h"
-#include "DxLib.h"
-#include <cmath>
-#include "module.h"
 
 Wire::Wire(double theta_)
 {
@@ -14,8 +9,8 @@ Wire::Wire(double theta_)
 	center.y = 240;
 	center.z = 10;
 	for (int i = 0; i < sizeof(rect) / sizeof(rect[0]); i++) {
-		rect[i].x = center.x + 400 * cos(PI / 180 * (i * 90 + theta));
-		rect[i].y = center.y + 400 * sin(PI / 180 * (i * 90 + theta));
+		rect[i].x = center.x + 400 * cos(toRad(i * 90 + theta));
+		rect[i].y = center.y + 400 * sin(toRad(i * 90 + theta));
 		rect[i].z = center.z;
 		view[i] = convertToView(&rect[i]);
 	}
@@ -27,11 +22,11 @@ Wire::~Wire()
 }
 
 bool Wire::update() {
-	center.z += 2;
+	center.z += getGameSpeed();
 	if (theta >= 360)theta = (int)theta%360;
 	for (int i = 0; i < sizeof(rect) / sizeof(rect[0]); i++) {
-		rect[i].x = center.x + 400 * cos(PI / 180 * (i * 90 + theta));
-		rect[i].y = center.y + 400 * sin(PI / 180 * (i * 90 + theta));
+		rect[i].x = center.x + 400 * cos(toRad(i * 90 + theta));
+		rect[i].y = center.y + 400 * sin(toRad(i * 90 + theta));
 		rect[i].z = center.z;
 		view[i] = convertToView(&rect[i]);
 	}
