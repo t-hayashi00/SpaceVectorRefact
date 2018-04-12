@@ -7,11 +7,9 @@ Ring::Ring(double z, double vel_, double degree_) :Object(z, vel_, degree_)
 	size = 100;
 	hp = 2;
 	preZ = center.z;
-	OutputDebugString("->ƒŠƒ“ƒO‚ª¶¬‚³‚ê‚½\n");
 }
 Ring::~Ring()
 {
-	OutputDebugString("ƒŠƒ“ƒO‚ªíœ‚³‚ê‚½\n");
 }
 
 void Ring::update()

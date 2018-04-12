@@ -8,11 +8,9 @@ Bullet::Bullet(int hp_, double z, double vel_, double degree_) :Object(z, vel_, 
 	hp = hp_;
 	power = 1;
 	preZ = center.z;
-	OutputDebugString("->バレットが生成された\n");
 }
 Bullet::~Bullet()
 {
-	OutputDebugString("->バレットが削除された\n");
 }
 
 void Bullet::update()

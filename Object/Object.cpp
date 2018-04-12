@@ -4,11 +4,9 @@ Object::Object(double z, double vel_, double degree_) {
 	degree = degree_;
 	center.z = z;
 	vel = vel_;
-	OutputDebugString("オブジェクト生成\n");
 }
 
 Object::~Object() {
-	OutputDebugString("オブジェクト削除\n");
 }
 
 double Object::getPreZ() { return preZ; }

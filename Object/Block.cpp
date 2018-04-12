@@ -8,11 +8,9 @@ Block::Block(int hp_, double z, double vel_, double degree_) :Object(z, vel_, de
 	hp = hp_;
 	if (hp > 3)hp = 3;
 	preZ = center.z;
-	OutputDebugString("->ブロックが生成された\n");
 }
 Block::~Block()
 {
-	OutputDebugString("ブロックが削除された\n");
 }
 
 void Block::update()

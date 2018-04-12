@@ -25,7 +25,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		backEffect();
 		Scene* nextScene = scene->update();
 		if (scene != nextScene) {
-			OutputDebugString("シーンチェンジ");
 			delete scene;
 			scene = nextScene;
 		}

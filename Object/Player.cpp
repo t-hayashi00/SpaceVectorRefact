@@ -10,11 +10,9 @@ Player::Player(double z, double vel_, double degree_) :Object(z, vel_, degree_)
 	bomb = 900;
 	center.z = 425;
 	preZ = center.z;
-	OutputDebugString("->©‹@‚ª¶¬‚³‚ê‚½\n");
 }
 Player::~Player()
 {
-	OutputDebugString("->©‹@‚ªíœ‚³‚ê‚½\n");
 }
 
 void Player::update()
