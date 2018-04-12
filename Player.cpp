@@ -1,25 +1,37 @@
 #include "Player.h"
 
-Player::Player()
+Player::Player(double z, double vel_, double degree_) :Object(z, vel_, degree_)
 {
-	LoadDivGraph("image/pl.png", 3, 3, 1, 50, 50, image, 0);
-	image[3] = LoadGraph("image/boost.png");
-	drawData.vertex = &center;
-//	drawData.draw = &draw;
+	LoadDivGraph("image/pl.png", 2, 2, 1, 50, 50, image, 0);
+	type = "player";
+	size = 10;
+	maxHp = 5;
+	hp = maxHp;
+	bomb = 900;
 	center.z = 425;
-	OutputDebugString("‚¤‚Ü‚ê‚½\n");
+	preZ = center.z;
+	OutputDebugString("->©‹@‚ª¶¬‚³‚ê‚½\n");
 }
 Player::~Player()
 {
-	OutputDebugString("‚µ‚ñ‚¾\n");
+	OutputDebugString("->©‹@‚ªíœ‚³‚ê‚½\n");
 }
 
-void Player::update() {
+void Player::update()
+{
 	frameCount++;
 	input();
+	degree += vel;
+	if (degree < 0)degree += 360;
 	double distance = 150 + 1 * sin(toRad(15 * frameCount));
 	center.x = 320 + 1.3 * distance * cos(toRad(degree));
 	center.y = 240 + distance * sin(toRad(degree));
+
+	if (hp > 5)hp = 5;
+	if (hp <= 0)inactive = 6000;
+	if (bomb < 900)bomb += 1;
+	if (bomb > 900)bomb = 900;
+
 
 	for (int i = 0; i < sizeof(body) / sizeof(body[0]); i++) {
 		body[i] = center;
@@ -28,24 +40,22 @@ void Player::update() {
 		wing[i] = center;
 	}
 
+	preZ = center.z;
 	setVp(center.x, center.y);
-	setGameSpeed(2);
-	draw();
+	if(inactive > 0)inactive--;
 }
 
 void Player::input() {
 	if (CheckHitKey(KEY_INPUT_RIGHT)) {
-		vec -= 0.5;
-		if (vec < -3.0)vec = -3.0;
+		vel -= 0.5;
+		if (vel < -3.0)vel = -3.0;
 	}
 	if (CheckHitKey(KEY_INPUT_LEFT)) {
-		vec += 0.5;
-		if (vec > 3.0)vec = 3.0;
+		vel += 0.5;
+		if (vel > 3.0)vel = 3.0;
 	}
-	if (vec > 0)vec -= 0.125;
-	if (vec < 0)vec += 0.125;
-	degree += vec;
-	if (degree < 0)degree += 360;
+	if (vel > 0)vel -= 0.125;
+	if (vel < 0)vel += 0.125;
 }
 
 void Player::draw() {
@@ -86,39 +96,40 @@ void Player::draw() {
 		view[i + sizeof(body) / sizeof(body[0])] = convertToView(&wing[i]);
 	}
 
-	SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 1);
+	SetDrawBlendMode(DX_BLENDGRAPHTYPE_ALPHA, 255 - 255 * (inactive/20));
 
 	//body
 	DrawModiGraph(
 		view[0].x, view[0].y,
 		view[0].x, view[0].y,
 		view[2].x, view[2].y,
-		view[3].x, view[3].y,image[0], FALSE);
+		view[3].x, view[3].y,image[0], TRUE);
 	DrawModiGraph(
 		view[0].x, view[0].y,
 		view[0].x, view[0].y,
 		view[2].x, view[2].y,
-		view[1].x, view[1].y, image[0], FALSE);
+		view[1].x, view[1].y, image[0], TRUE);
 	DrawModiGraph(
 		view[0].x, view[0].y,
 		view[0].x, view[0].y,
 		view[1].x, view[1].y,
-		view[3].x, view[3].y, image[0], FALSE);
+		view[3].x, view[3].y, image[0], TRUE);
 
 	//left wing
 	DrawModiGraph(
 		view[4].x, view[4].y,
 		view[4].x, view[4].y,
 		view[6].x, view[6].y,
-		view[2].x, view[2].y, image[1], FALSE);
+		view[2].x, view[2].y, image[1], TRUE);
 
 	//right wing
 	DrawModiGraph(
 		view[5].x, view[5].y,
 		view[5].x, view[5].y,
 		view[7].x, view[7].y,
-		view[3].x, view[3].y, image[1], FALSE);
+		view[3].x, view[3].y, image[1], TRUE);
 
+	SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 1);
 	//edge
 	DrawTriangle(
 		view[0].x, view[0].y,
@@ -141,4 +152,13 @@ void Player::draw() {
 		view[4].x, view[4].y,
 		view[6].x, view[6].y,
 		view[2].x, view[2].y, cr, 0);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	Point pos = convertToView(&center);
+	if(bomb<900){
+		DrawBox(pos.x - 30, pos.y + 40, (pos.x + 30) - 60 * bomb/900, pos.y + 50, 0xFF0000, TRUE);
+	}
+}
+
+void Player::affect(Object* target) {
+	target->hp = 0;
 }

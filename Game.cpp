@@ -1,7 +1,9 @@
 #pragma once
-#include "DxLib.h"
-#include "Player.h"
+#include "module.h"
+#include "ScreenEffect.h"
 #include "PanoramaManager.h"
+#include "Scene.h"
+#include "Title.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	SetMainWindowText("SpaceVectorRefact");
@@ -10,14 +12,25 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	DxLib_Init();
 	SetDrawScreen(DX_SCREEN_BACK);
 	int scr = MakeScreen(640, 480, 0);
-	FILE *fp;
-
 	PanoramaManager pm;
-	Player player;
+	setupSound();
+	setupEffect();
+	Scene* scene = new Title();
+
+	int curFrame = 0;
 	while (!ProcessMessage() && !CheckHitKey(KEY_INPUT_ESCAPE) && !ClearDrawScreen()) {
 		ClearDrawScreen();
+
 		pm.update();
-		player.update();
+		backEffect();
+		Scene* nextScene = scene->update();
+		if (scene != nextScene) {
+			OutputDebugString("シーンチェンジ");
+			delete scene;
+			scene = nextScene;
+		}
+		frontEffect();
+		curFrame++;
 		ScreenFlip();
 	}
 

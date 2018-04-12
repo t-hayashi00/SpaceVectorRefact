@@ -1,13 +1,14 @@
 #include "module.h"
 
 double gameSpeed = 2;
+double score;
 Point vp;
 
-Point convertToView(Vector3D* v3d) {
+Point convertToView(const Vector3D* v3d) {
 	Point v;
-	v3d->zoom = 0.00001*0.5*(v3d->z*v3d->z - v3d->z) + 0.0003;
-	v.x = (v3d->x - vp.x)*v3d->zoom + vp.x;
-	v.y = (v3d->y - vp.y)*v3d->zoom + vp.y;
+	double zoom = 0.00001 * 0.5 * (v3d->z * v3d->z - v3d->z) + 0.0003;
+	v.x = (v3d->x - vp.x) * zoom + vp.x;
+	v.y = (v3d->y - vp.y) * zoom + vp.y;
 	return v;
 }
 
@@ -20,8 +21,20 @@ void setVp(double x, double y) {
 	vp.y = VP_Y + (y - vp.y) * 0.5;
 }
 
+Point getVp() {
+	return vp;
+}
+
+void addScore(double point) {
+	score += point;
+}
+
+double getScore() { return score; }
+
 void setGameSpeed(double speed) {
 	gameSpeed = speed;
+	if (gameSpeed > 8)gameSpeed = 8;
+	if (gameSpeed < 2)gameSpeed = 2;
 }
 
 double getGameSpeed() {

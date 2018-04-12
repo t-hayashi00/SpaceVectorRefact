@@ -2,7 +2,6 @@
 
 Wire::Wire(double theta_)
 {
-	OutputDebugString("Wire‚ª¶¬‚³‚ê‚½\n");
 	cr = GetColor(25, 235, 255);
 	theta = theta_;
 	center.x = 320;
@@ -18,7 +17,6 @@ Wire::Wire(double theta_)
 
 Wire::~Wire()
 {
-	OutputDebugString("Wire‚ªíœ‚³‚ê‚½\n");
 }
 
 bool Wire::update() {

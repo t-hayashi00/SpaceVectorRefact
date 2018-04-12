@@ -1,28 +1,23 @@
 #pragma once
 #include "module.h"
+#include "Object.h"
+#include <list>
 
-class Player {
+class Player : public Object {
 private:
 	void input();
-
-	int image[5];
 	Vector3D body[4];
 	Vector3D wing[4];
 	Point view[8];
-	unsigned int cr = 0;
-	int frameCount = 0;
-	double vec = 0;
-	double degree = 0;
+	int image[4];
+	std::list<Object*>* bullets;
 
 public:
-	Player();
+	Player(double z, double vel, double degree_);
 	~Player();
 	void update();
 	void draw();
+	void affect(Object* target);
 
-	Vector3D center;
-	DrawData drawData;
-	int hp = 5;
-	double bomb = 100;
-	double boost = 0;
+	int interval = 0;
 };

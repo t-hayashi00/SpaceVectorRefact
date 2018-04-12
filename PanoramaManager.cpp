@@ -12,7 +12,8 @@ PanoramaManager::~PanoramaManager()
 
 void PanoramaManager::update() {
 	DrawGraph(0, 0, pnrm, FALSE);
-	if (time % 30 == 0) {
+	int freq = 60 / getGameSpeed();
+	if (time % freq == 0) {
 		wires.push_back(std::make_shared<Wire>((time/10)%360));
 	}
 	int cnt = 0;
@@ -30,6 +31,5 @@ void PanoramaManager::update() {
 	}
 
 	SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 1);
-	DrawFormatString(10, 10, 0xFFFFFF, "size %d", wires.size());
-	time++;
+	time ++;
 }
